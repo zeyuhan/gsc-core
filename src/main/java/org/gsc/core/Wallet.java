@@ -200,16 +200,6 @@ public class Wallet {
 
   }
 
-  public static byte[] generateContractAddress(byte[] ownerAddress, byte[] txRawDataHash) {
-
-    byte[] combined = new byte[txRawDataHash.length + ownerAddress.length];
-    System.arraycopy(txRawDataHash, 0, combined, 0, txRawDataHash.length);
-    System.arraycopy(ownerAddress, 0, combined, txRawDataHash.length, ownerAddress.length);
-
-    return Hash.sha3omit12(combined);
-
-  }
-
   public static byte[] generateContractAddress(byte[] transactionRootId, long nonce) {
     byte[] nonceBytes = Longs.toByteArray(nonce);
     byte[] combined = new byte[transactionRootId.length + nonceBytes.length];
@@ -219,6 +209,16 @@ public class Wallet {
     return Hash.sha3omit12(combined);
   }
 
+  public static byte[] generateContractAddress(byte[] ownerAddress, byte[] txRawDataHash) {
+
+    byte[] combined = new byte[txRawDataHash.length + ownerAddress.length];
+    System.arraycopy(txRawDataHash, 0, combined, 0, txRawDataHash.length);
+    System.arraycopy(ownerAddress, 0, combined, txRawDataHash.length, ownerAddress.length);
+
+    return Hash.sha3omit12(combined);
+
+  }
+  
   public static byte[] decodeFromBase58Check(String addressBase58) {
     if (StringUtils.isEmpty(addressBase58)) {
       logger.warn("Warning: Address is empty !!");
